@@ -3,8 +3,6 @@ import pandas as pd
 import numpy as np
 import streamlit as st
 
-import docx
-
 from snowflake_utils import sf_check_snowflake_connection, st_query_to_snowflake_and_return_dataframe
 # from snowflake_config import sf_config
 
@@ -155,60 +153,6 @@ def mostrar_empresas_turismo(tejido):
         st.markdown('##')
         st.markdown("##### **Cantidad total de empresas**")
         st.subheader(f'0')    
-
-# FUNCIONES A PROBAR
-
-def generar_reporte_word(municipio, departamento, graficas, texto, cifras):
-    # Crear un nuevo documento Word
-    doc = docx.Document()
-
-    # Agregar el nombre del municipio y departamento al inicio
-    doc.add_heading(f"{municipio} - {departamento}", 0)
-
-    # Agregar el texto
-    for parrafo in texto:
-        doc.add_paragraph(parrafo)
-
-    # Agregar las cifras
-    for cifra in cifras:
-        doc.add_paragraph(str(cifra))
-
-    # Agregar las gráficas
-    for i, grafica in enumerate(graficas):
-        # Guardar temporalmente la gráfica como una imagen
-        filename = f"temp_grafica_{i}.png"
-        grafica.write_image(filename)
-        doc.add_picture(filename)
-
-    # Guardar el documento Word
-    doc.save(f"Reporte_{municipio}_{departamento}.docx")
-
-def mostrar_grafico_torta_datos2(df_datos_mun, titulo, etiquetas, valores, colores, texto_central):
-    fig = go.Figure(data=[go.Pie(labels=etiquetas,
-                                 values=valores,
-                                 hole=0.5,
-                                 marker=dict(colors=colores))])
-    
-    fig.update_traces(textposition='outside',
-                      textinfo='percent+label',
-                      hoverinfo='label+percent',
-                      textfont=dict(size=16))
-    
-    fig.update_layout(title=titulo,
-                      annotations=[
-                          {
-                              'x': 0.5,
-                              'y': 0.5,
-                              'xanchor': 'center',
-                              'yanchor': 'middle',
-                              'text': texto_central,
-                              'showarrow': False,
-                              'font': {'size': 20}
-                          }
-                      ])
-    
-    return fig
-
 
 
 
