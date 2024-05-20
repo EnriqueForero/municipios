@@ -2,46 +2,43 @@ import snowflake.connector
 from snowflake.connector.pandas_tools import write_pandas
 from snowflake.connector.pandas_tools import pd_writer
 import pandas as pd
-import streamlit as st
 
-def sf_check_snowflake_connection():
+def sf_check_snowflake_connection(sf_config):
     """
     Verifica la conexión con Snowflake ejecutando una consulta para obtener la versión actual del servidor.
-    
-    Esta función intenta establecer una conexión con Snowflake usando las configuraciones almacenadas en st.secrets,
+
+    Esta función intenta establecer una conexión con Snowflake usando las configuraciones proporcionadas,
     ejecuta una consulta para determinar la versión actual del servidor y cierra adecuadamente todos los recursos.
-    
+
+    Args:
+        sf_config (dict): Un diccionario que contiene las credenciales y configuración para la conexión.
+                          Debe incluir las llaves 'user', 'password', y 'account'.
+
     Returns:
         str: Devuelve la versión actual de Snowflake si la conexión es exitosa. En caso de error, retorna un mensaje indicativo.
-    
+
     Note:
         Esta función es útil para verificar la correcta configuración y operatividad de las conexiones a Snowflake.
-        Las credenciales y configuraciones se obtienen del archivo .streamlit/secrets.toml.
     """
     conn = None
     cur = None
     try:
-        # Crear la conexión utilizando las credenciales y configuraciones almacenadas en st.secrets
+        # Crear la conexión utilizando las credenciales y configuraciones especificadas
         conn = snowflake.connector.connect(
-            user=st.secrets["snowflake"]["user"],
-            password=st.secrets["snowflake"]["password"],
-            account=st.secrets["snowflake"]["account"]
+            user=sf_config['user'],
+            password=sf_config['password'],
+            account=sf_config['account']  # Asegura que 'account' no incluya URL de Snowflake
         )
-        
         # Crear un cursor para ejecutar consultas
         cur = conn.cursor()
-        
         # Ejecutar consulta para obtener la versión actual de Snowflake
         cur.execute("SELECT current_version()")
         one_row = cur.fetchone()
-        
-        # Devolver la versión actual de Snowflake
+        # Imprimir la versión actual de Snowflake
         return one_row[0] if one_row else "No se pudo obtener la versión."
-    
     except Exception as e:
         # Manejo de excepciones si ocurre un error durante la conexión o ejecución
         return f"Error al conectar o ejecutar la consulta: {e}"
-    
     finally:
         # Asegurarse de cerrar el cursor y la conexión
         if cur:
@@ -50,7 +47,11 @@ def sf_check_snowflake_connection():
             conn.close()
         print("Conexión cerrada correctamente.")
 
-def st_query_to_snowflake_and_return_dataframe(query: str, limit: int = None, expected_types: dict = None) -> pd.DataFrame:
+# Ejemplo de uso:
+# sf_config = {'user': 'usuario', 'password': 'contraseña', 'account': 'cuenta'}
+# print(check_snowflake_connection(sf_config))
+
+def st_query_to_snowflake_and_return_dataframe(query: str, sf_config: dict, limit: int = None, expected_types: dict = None) -> pd.DataFrame:
     """
     Ejecuta una consulta SQL en Snowflake y devuelve los resultados en un DataFrame de Pandas.
 
@@ -77,12 +78,12 @@ def st_query_to_snowflake_and_return_dataframe(query: str, limit: int = None, ex
     try:
         # Establecer la conexión a Snowflake utilizando la configuración proporcionada
         conn = snowflake.connector.connect(
-            user=st.secrets["snowflake"]['user'],
-            password=st.secrets["snowflake"]['password'],
-            account=st.secrets["snowflake"]['account'],
-            warehouse=st.secrets["snowflake"]['warehouse'],  # Opcional, aunque útil para llevar seguimiento.
-            database=st.secrets["snowflake"]['database'],    # Opcional
-            schema=st.secrets["snowflake"]['schema']         # Opcional
+            user=sf_config['user'],
+            password=sf_config['password'],
+            account=sf_config['account'],
+            warehouse=sf_config.get('warehouse'),  # Opcional, aunque útil para llevar seguimiento.
+            database=sf_config.get('database'),    # Opcional
+            schema=sf_config.get('schema')         # Opcional
         )
 
         # Crear un cursor para ejecutar la consulta
@@ -149,12 +150,12 @@ def st_query_to_snowflake_and_return_dataframe(query: str, limit: int = None, ex
     try:
         # Establecer la conexión a Snowflake utilizando la configuración proporcionada
         conn = snowflake.connector.connect(
-            user=st.secrets["snowflake"]['user'],
-            password=st.secrets["snowflake"]['password'],
-            account=st.secrets["snowflake"]['account'],
-            warehouse=st.secrets["snowflake"]['warehouse'],  # Opcional, aunque útil para llevar seguimiento.
-            database=st.secrets["snowflake"]['database'],    # Opcional
-            schema=st.secrets["snowflake"]['schema']         # Opcional
+            user=sf_config['user'],
+            password=sf_config['password'],
+            account=sf_config['account'],
+            warehouse=sf_config.get('warehouse'),  # Opcional, aunque útil para llevar seguimiento.
+            database=sf_config.get('database'),    # Opcional
+            schema=sf_config.get('schema')         # Opcional
         )
 
         # Crear un cursor para ejecutar la consulta

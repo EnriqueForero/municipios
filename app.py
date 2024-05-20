@@ -251,3 +251,51 @@ fn.mostrar_empresas_por_categoria_unificada(tejido, "Cadena productiva",
 
 # Turismo
 fn.mostrar_empresas_turismo(tejido)
+
+
+# CÓDIGO OPCIONAL
+
+c1, c2, c3 = st.columns(3)
+
+with c1:
+    discap = df_datos_mun['% grupos étnicos municipio'].values[0]
+    no_discap = 100 - discap
+    fig_discap = fn.mostrar_grafico_torta_datos2(df_datos_mun,
+                                                '',
+                                                ['Resto <br> de <br> población', 'Con <br> discapacidad'],
+                                                [no_discap, discap],
+                                                ['rgb(0, 109, 254)', 'rgb(255, 218, 0)'],
+                                                'Censo 2018')
+    st.plotly_chart(fig_discap)
+
+with c2:
+    pobre = df_datos_mun['% pobreza municipio'].values[0]
+    no_pobre = 100 - pobre
+    fig_pobre = fn.mostrar_grafico_torta_datos2(df_datos_mun,
+                                               '',
+                                               ['En <br> situación <br> de <br> pobreza', 'Resto <br> de <br> población'],
+                                               [pobre, no_pobre],
+                                               ['rgb(255, 218, 0)', 'rgb(0, 109, 254)'],
+                                               'Censo 2018')
+    st.plotly_chart(fig_pobre)
+
+with c3:
+    informal = df_datos_mun['% informalidad municipio'].values[0]
+    no_informal = 100 - informal
+    fig_informal = fn.mostrar_grafico_torta_datos2(df_datos_mun,
+                                                  '',
+                                                  ['Ocupados <br> informales', 'Resto <br> de <br> ocupados'],
+                                                  [informal, no_informal],
+                                                  ['rgb(255, 218, 0)', 'rgb(0, 109, 254)'],
+                                                  'Censo 2018')
+    st.plotly_chart(fig_informal)
+
+# ...
+
+if st.button("Generar Reporte Word"):
+    graficas = [fig_discap, fig_pobre, fig_informal]  # Lista con las gráficas generadas
+    texto = ["Texto de ejemplo 1", "Texto de ejemplo 2"]  # Lista con los párrafos de texto
+    cifras = [mpio_seleccionado, depto_seleccionado]  # Lista con las cifras
+
+    fn.generar_reporte_word(mpio_seleccionado, depto_seleccionado, graficas, texto, cifras)
+    st.success("Reporte generado exitosamente.")
