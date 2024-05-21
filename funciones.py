@@ -3,8 +3,15 @@ import pandas as pd
 import numpy as np
 import streamlit as st
 
+# import docx
+
 from snowflake_utils import sf_check_snowflake_connection, st_query_to_snowflake_and_return_dataframe
-from snowflake_config import sf_config
+# from snowflake_config import sf_config
+
+def cargar_contraseñas(nombre_archivo):
+    return st.secrets
+
+sf_config = st.secrets['snowflake'] # Carga las llaves secretas
 
 # Cargar dataframes desde Snowflake. Como están en funciones, sólo se cargan una vez y optimiza el consumo. 
 # Si se dejan en el app.py cada vez que se consulta un departamento nuevo, se hace la conexión a Snowflake. 
@@ -153,7 +160,4 @@ def mostrar_empresas_turismo(tejido):
         st.markdown('##')
         st.markdown("##### **Cantidad total de empresas**")
         st.subheader(f'0')    
-
-
-
 

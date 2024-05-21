@@ -1,7 +1,7 @@
 import funciones as fn
 from snowflake_utils import sf_check_snowflake_connection, st_query_to_snowflake_and_return_dataframe
 # from snowflake_config import sf_config # Toca crear el archivo .toml
-#import docx # Para generar el reporte
+# import docx # Para generar el reporte
 
 import pandas as pd
 import numpy as np
@@ -18,6 +18,8 @@ from snowflake.connector.pandas_tools import pd_writer
 pd.options.display.max_columns = None
 pd.options.display.float_format = '{:,.2f}'.format
 pd.set_option('display.max_colwidth', 0)
+
+fn.cargar_contraseñas(".streamlit/secrets.toml") # Indica la ruta donde están las llaves secretas
 
 # # Archivos
 # a_base, a_mun, a_ubic = "Tejido_Municipios.txt", "Base_municipios.txt", "DIVIPOLA_Municipios.xlsx"
