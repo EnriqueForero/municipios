@@ -14,12 +14,6 @@ import snowflake.connector
 from snowflake.connector.pandas_tools import write_pandas
 from snowflake.connector.pandas_tools import pd_writer
 
-st.set_page_config(
-    page_title="Municipios App",
-    page_icon="🧊",
-    layout="wide"
-)
-
 # Configuración de pandas
 pd.options.display.max_columns = None
 pd.options.display.float_format = '{:,.2f}'.format
