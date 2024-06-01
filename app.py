@@ -1,3 +1,12 @@
+import streamlit as st
+# Add custom CSS to hide the GitHub icon
+hide_github_icon = """
+#GithubIcon {
+  visibility: hidden;
+}
+"""
+st.markdown(hide_github_icon, unsafe_allow_html=True)
+
 import funciones as fn
 from snowflake_utils import sf_check_snowflake_connection, st_query_to_snowflake_and_return_dataframe
 # from snowflake_config import sf_config # Toca crear el archivo .toml
