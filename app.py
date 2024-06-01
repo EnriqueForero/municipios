@@ -14,6 +14,12 @@ import snowflake.connector
 from snowflake.connector.pandas_tools import write_pandas
 from snowflake.connector.pandas_tools import pd_writer
 
+st.set_page_config(
+    page_title="Municipios App",
+    page_icon="🧊",
+    layout="wide"
+)
+
 # Configuración de pandas
 pd.options.display.max_columns = None
 pd.options.display.float_format = '{:,.2f}'.format
@@ -253,15 +259,6 @@ fn.mostrar_empresas_por_categoria_unificada(tejido, "Cadena productiva",
 
 # Turismo
 fn.mostrar_empresas_turismo(tejido)
-
-st.markdown(
-    """
-    <style>
-    .css-1jc7ptx, .e1ewe7hr3, .viewerBadge_container__1QSob,
-    .styles_viewerBadge__1yB5_, .viewerBadge_link__1S137,
-    .viewerBadge_text__1JaDK {
-        display: none;
-    }
     </style>
     """,
     unsafe_allow_html=True
