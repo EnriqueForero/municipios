@@ -1,17 +1,3 @@
-import streamlit as st
-st.markdown(
-    """
-    <style>
-    .css-1jc7ptx, .e1ewe7hr3, .viewerBadge_container__1QSob,
-    .styles_viewerBadge__1yB5_, .viewerBadge_link__1S137,
-    .viewerBadge_text__1JaDK {
-        display: none;
-    }
-    </style>
-    """,
-    unsafe_allow_html=True
-)
-
 import funciones as fn
 from snowflake_utils import sf_check_snowflake_connection, st_query_to_snowflake_and_return_dataframe
 # from snowflake_config import sf_config # Toca crear el archivo .toml
@@ -267,3 +253,16 @@ fn.mostrar_empresas_por_categoria_unificada(tejido, "Cadena productiva",
 
 # Turismo
 fn.mostrar_empresas_turismo(tejido)
+
+st.markdown(
+    """
+    <style>
+    .css-1jc7ptx, .e1ewe7hr3, .viewerBadge_container__1QSob,
+    .styles_viewerBadge__1yB5_, .viewerBadge_link__1S137,
+    .viewerBadge_text__1JaDK {
+        display: none;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
