@@ -253,7 +253,3 @@ fn.mostrar_empresas_por_categoria_unificada(tejido, "Cadena productiva",
 
 # Turismo
 fn.mostrar_empresas_turismo(tejido)
-    </style>
-    """,
-    unsafe_allow_html=True
-)
